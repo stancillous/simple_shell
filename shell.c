@@ -42,7 +42,7 @@ int contains_separator(const char *command)
  * Return: void
  */
 
-id shell(char *filename)
+void shell(char *filename)
 {
     FILE *file;
     char command[MAX_COMMAND_LENGTH];

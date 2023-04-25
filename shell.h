@@ -47,7 +47,7 @@ void handle_command_line_comments(char *command);
 
 /*handle exit command*/
 void handle_exit(char **args, int num_args);
-void shell(void);
+void shell(char *filename);
 
 
 #endif /* SHELL_H */
