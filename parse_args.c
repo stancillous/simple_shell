@@ -10,7 +10,7 @@
 int parse_arguments(char *command, char **args)
 {
 	int num_args = 0;
-	char *token, command_copy;
+	char *token, *command_copy;
 
 	command_copy = strdup(command);
 	token = strtok(command_copy, " ");
