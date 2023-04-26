@@ -7,7 +7,7 @@
 
 void display_prompt(void)
 {
-	printf("COOL_SHELL$ ");
+	printf("$ ");
 	fflush(stdout);
 }
 
