@@ -3,7 +3,7 @@
  * _strtok - Tokenizes a string into substrings based on a delimiter.
  * @str: a character pointer representing the string to be tokenized.
  * @delim: represents the delimiter used to tokenize the string.
- * return: pointer
+ * Return: pointer
  */
 _
 char *_strtok(char *str, const char *delim)
