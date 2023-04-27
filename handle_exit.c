@@ -1,14 +1,10 @@
 #include "shell.h"
 /**
- * This function handles the 'exit' command in a shell program
- * It takes an array of arguments and the number of arguments as input
- * If there is only one argument, it exits the shell with a success status
- * If there are two arguments
- * it converts the first argument to an integer using the atoi() function
- * and exits the shell with that status
- * If there are more than two arguments
- * it prints an error message to stdout indicating the correct usage
- */
+ * handle_exit - This function handles the "exit" command in a shell program
+ * allowing the user to exit with an optional exit status
+ * @args: Pointer to array of strings with command arguments.
+ * @num_args: Number of arguments, including command
+ **/
 void handle_exit(char **args, int num_args)
 {
 	if (num_args == 1)

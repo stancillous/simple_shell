@@ -1,20 +1,10 @@
 #include "shell.h"
 /**
- * change_cd changes the current working directory of a shell program.
- * It takes an array of arguments as input
- * The first element of the array is the directory to be changed to.
- * If the directory argument is NULL
- * It changes the directory to the user's home directory.
- * If the directory argument is "-"
- * It changes the directory to the previously visited directory
- * The function attempts to change the directory using the chdir() function.
- * If chdir() fails
- * It prints an error message to stderr using the fprintf() function.
- * If chdir() succeeds
- * It updates the value of the PWD environment variable
- * to the new current working directory using the setenv() function
- * If updating the PWD environment variable fails
- * It prints an error message to stderr using the fprintf() function.
+ * change_cd - changes the current working directory of a shell program.
+ * @args: An array of arguments, where the first element is the name of the
+ * command ("cd") and the second element is the directory to change to
+ * (or NULL or "-" for special cases)
+ * Return (0)
  **/
 void change_cd(char *args[])
 {

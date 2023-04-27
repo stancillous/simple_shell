@@ -1,22 +1,10 @@
 #include "shell.h"
 /**
- * handle_command_line_separator handles command line separators
- * It takes a command string as input
- * It splits the command into multiple commands using the separator ";"
- * as delimiter using the strtok() function
- * For each command, it forks a new child process using the fork() function
- * If the process is the child process
- * it parses the command and its arguments using the strtok() function
- * and then executes the command with the execvp() function
- * If execvp() fails, it prints an error message to stderr
- * using the perror() function
- * and exits the child process with a failure status
- * If the process is the parent process
- * it waits for the child process to finish using the waitpid() function
- * If the fork() function fails, it prints an error message to stderr
- * using the perror() function
- * and exits the child process with a failure status
- */
+ * handle_command_line_separators-This function executes
+ * multiple shell commands separated by semicolons.
+ * @command: refer to a series of shell commands separated by semicolons
+ * Return 0
+ **/
 void handle_command_line_separators(char *command)
 {
 	const char *separator = ";";
