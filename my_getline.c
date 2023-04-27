@@ -1,6 +1,11 @@
 #include "shell.h"
 #define MAX_LINE_LENGTH 1024
 
+/**
+ * my_getline - gets line
+ * Return: void
+ */
+
 char *my_getline(void)
 {
 	static char buffer[MAX_LINE_LENGTH]; /* Static buffer to store input*/
