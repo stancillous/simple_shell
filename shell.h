@@ -8,13 +8,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define MAX_COMMAND_LENGTH 100 
-#define MAX_ARGS 10 
-#define MAX_ARGS_LENGTH 100 
+#define MAX_COMMAND_LENGTH 100
+#define MAX_ARGS 10
+#define MAX_ARGS_LENTH 100
 #define MAX_ALIASES 100
-#define MAX_ARG_LENGTH 256 
+#define MAX_ARG_LENGTH 256
 #define MAX_NUM_ARGS 10
 #define MAX_PATH_LENGTH 100
+
+int contains_separator(const char *command);
 char *_strtok(char *str, const char *delim);
 void shellTwo(void);
 void change_cd(char *args[]);
