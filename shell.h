@@ -15,7 +15,7 @@
 #define MAX_ARG_LENGTH 256 
 #define MAX_NUM_ARGS 10
 #define MAX_PATH_LENGTH 100
-
+char *_strtok(char *str, const char *delim);
 void shellTwo(void);
 void change_cd(char *args[]);
 void handle_command_with_args(const char *command, char *args[]);

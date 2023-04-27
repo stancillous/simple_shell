@@ -22,7 +22,7 @@ void handle_command_line_separators(char *command)
 	const char *separator = ";";
 	char *token;
 	/*Split the command using the separator as delimiter*/
-	token = strtok(command, separator);
+	token = _strtok(command, separator);
 	while (token != NULL)
 	{/* Fork a new process to execute the command*/
 		pid_t pid = fork();
@@ -33,9 +33,9 @@ void handle_command_line_separators(char *command)
 			char *args[64];
 			int num_args = 0;
 
-			args[num_args++] = strtok(token, " ");
+			args[num_args++] = _strtok(token, " ");
 			while
-				((args[num_args++] = strtok(NULL, " ")) != NULL);
+				((args[num_args++] = _strtok(NULL, " ")) != NULL);
 			execvp(args[0], args);
 			/* execvp() will only return if there is an error*/
 			perror("execvp");
@@ -56,6 +56,6 @@ void handle_command_line_separators(char *command)
 			exit(1);
 		}
 		/*Get the next token*/
-		token = strtok(NULL, separator);
+		token = _strtok(NULL, separator);
 	}
 }
