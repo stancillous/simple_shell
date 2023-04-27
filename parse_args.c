@@ -13,12 +13,12 @@ int parse_arguments(char *command, char **args)
 	char *token, *command_copy;
 
 	command_copy = strdup(command);
-	token = strtok(command_copy, " ");
+	token = _strtok(command_copy, " ");
 
 	while (token != NULL && num_args < MAX_NUM_ARGS)
 	{
 		args[num_args++] = token;
-		token = strtok(NULL, " ");
+		token = _strtok(NULL, " ");
 	}
 	args[num_args] = NULL;
 	return (num_args);

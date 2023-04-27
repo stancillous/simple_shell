@@ -10,7 +10,7 @@
 int find_command_path(char *command, char *path)
 {
 	char *env_path = getenv("PATH");
-	char *dir = strtok(env_path, ":");
+	char *dir = _strtok(env_path, ":");
 
 	if (env_path == NULL)
 	{
@@ -25,7 +25,7 @@ int find_command_path(char *command, char *path)
 		{
 			return (1);
 		}
-		dir = strtok(NULL, ":");
+		dir = _strtok(NULL, ":");
 	}
 	return (0);
 }
