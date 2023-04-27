@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * display_promt - displays prompt
+ * display_prompt - displays prompt
  * Return: void
  */
 
@@ -145,95 +145,59 @@ char *comment_pos;
     }
 }
 
-
 void shellTwo()
 {
     char command[MAX_COMMAND_LENGTH];
     char *args[MAX_NUM_ARGS + 1];
     int num_args;
-  char *comment_pos;
-    while (1) {
-        display_prompt();
-        read_command(command);
+    char *comment_pos;
+    FILE *input_stream = stdin; 
+  
+    if (!isatty(fileno(stdin))) {
+        input_stream = stdin;
+    }
 
-      if(feof(stdin))
-      {
-          printf("\n");
-          break;
-      }
+    while (fgets(command, MAX_COMMAND_LENGTH, input_stream)) {
+        command[strcspn(command, "\n")] = '\0';
 
-       comment_pos = strchr(command, '#');
+        comment_pos = strchr(command, '#');
         if (comment_pos != NULL) {
             *comment_pos = '\0';
         }
 
-
-      if (contains_separator(command))
-        {
+        if (contains_separator(command)) {
             handle_command_line_separators(command);
             continue;
         }
 
+        handle_variable_replacement(command);
 
-      handle_variable_replacement(command);
+        num_args = parse_arguments(command, args);
 
-
-
-
-      num_args = parse_arguments(command, args);
-
-        if (strcmp(args[0], "env") == 0)
-        {
-          if (!args[1])
-          {
-            print_environment();
-          }
-
-          else
-          {
-            fprintf(stderr, "Incorrect usage of the command env\n");
-
-          }
-        }
-
-
-      else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0)
-        {
-            if (num_args == 2)
-            {
-                printf("%s\n", getenv("PATH"));
+        if (strcmp(args[0], "env") == 0) {
+            if (!args[1]) {
+                print_environment();
+            } else {
+                fprintf(stderr, "Incorrect usage of the command env\n");
             }
-            else
-            {
+        } else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0) {
+            if (num_args == 2) {
+                printf("%s\n", getenv("PATH"));
+            } else {
                 fprintf(stderr, "Incorrect usage of the command echo $PATH\n");
             }
-        }
-        else if (strcmp(args[0], "cd") == 0)
-        {
-          change_cd(args);
-        }
-
-        else if (strcmp(args[0], "setenv") == 0)
-        {
-          handle_setenv(args, num_args);
-          continue;
-        }
-        else if (strcmp(args[0], "unsetenv") == 0)
-        {
-          handle_unsetenv(args, num_args);
-          continue;
-        }
-
-        else if (strcmp(args[0], "exit") == 0)
-        {
+        } else if (strcmp(args[0], "cd") == 0) {
+            change_cd(args);
+        } else if (strcmp(args[0], "setenv") == 0) {
+            handle_setenv(args, num_args);
+            continue;
+        } else if (strcmp(args[0], "unsetenv") == 0) {
+            handle_unsetenv(args, num_args);
+            continue;
+        } else if (strcmp(args[0], "exit") == 0) {
             handle_exit(&args[1], num_args);
-        }
-        else
-        {
+        } else {
             handle_command_with_args(args[0], args);
         }
-
     }
-
-
 }

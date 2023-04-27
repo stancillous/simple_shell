@@ -34,18 +34,16 @@ void handle_command_with_args(const char *command, char *args[])
 		int status;
 
 		waitpid(pid, &status, 0); /* Wait for the child process to complete*/
-		if (WIFEXITED(status))
+		/*if (WIFEXITED(status))
 		{
 			int exit_status = WEXITSTATUS(status);
-			/* Get the exit status of the child process*/
 			printf("Child process exited with status: %d\n", exit_status);
 		}
 		else if (WIFSIGNALED(status))
 		{
 			int signal_number = WTERMSIG(status);
-			/* Get the signal number that caused termination*/
 			printf("Child process terminated with signal: %d\n", signal_number);
-		}
+		}*/
 	}
 	else
 	{
