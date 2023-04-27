@@ -5,7 +5,6 @@
  * @delim: represents the delimiter used to tokenize the string.
  * Return: pointer
  */
-_
 char *_strtok(char *str, const char *delim)
 {
 	static char *ptr;
