@@ -120,7 +120,7 @@ void shellTwo(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 	char *args[MAX_NUM_ARGS + 1], *comment_pos = NULL;
-	int num_args;
+	int num_args, i;
 	FILE *input_stream = stdin;
 
 	if (!isatty(fileno(stdin)))
@@ -139,6 +139,14 @@ void shellTwo(void)
 			continue;
 		}
 		handle_variable_replacement(command);
+
+		for (i = 0; command[i] != '\0'; i++)
+		{
+			if (!isspace(command[i]))
+				break;
+		}
+		if (command[i] == '\0')
+			exit(EXIT_SUCCESS);
 		num_args = parse_arguments(command, args);
 		check_commands(args, num_args);
 	}

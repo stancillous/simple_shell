@@ -22,17 +22,17 @@ void handle_command_with_args(const char *command, char *args[])
 			if (fd == -1)
 			{
 				perror("open /dev/null");
-				exit(0);
+				exit(1);
 			}
 			if (dup2(fd, STDERR_FILENO) == -1)
 			{
 				perror("dup2");
-				exit(0);
+				exit(1);
 			}
 			close(fd);
 			perror("command not found");
 		}
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
