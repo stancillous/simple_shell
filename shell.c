@@ -31,6 +31,7 @@ void read_command(char *command)
  */
 void check_commands(char *args[], int num_args)
 {
+	int count;
 	if (strcmp(args[0], "env") == 0)
 	{
 		if (!args[1])
@@ -41,7 +42,7 @@ void check_commands(char *args[], int num_args)
 	else if (strcmp(args[0], "/bin/ls") == 0)
 	{
 		count = count_command(args, num_args);
-		execute_command_multiple_lines(count);
+		execute_command_multiple_times(count);
 	}
 	else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0)
 	{
