@@ -64,47 +64,52 @@ void check_commands(char *args[], int num_args)
  */
 void shell(char *filename)
 {
-	FILE *file = NULL;
-	char command[MAX_COMMAND_LENGTH];
-	char *args[MAX_NUM_ARGS + 1], *comment_pos = NULL, *hash;
-	int num_args, read_from_file = 0;
+	FILE *fp;
+	char line[1024];
+	int i;
 
-	if (filename != NULL)
+	pid_t pid;
+	char *args[256];
+
+	fp = fopen(filename, "r");
+	if (fp == NULL)
 	{
-		file = fopen(filename, "r");
-		if (file == NULL)
-		{
-			fprintf(stderr, "./hsh: 0: Can't open %s\n", filename);
-			exit(127);
-		}
-		read_from_file = 1;
+		fprintf(stderr, "./hsh: 0: Can't open %s\n", filename);
+		exit(127);
 	}
-	while (1)
+	while (fgets(line, sizeof(line), fp))
 	{
-		if (!read_from_file)
-			display_prompt(), read_command(command);
+		line[strcspn(line, "\n")] = 0;
+		i = 0;
+		args[i++] = strtok(line, " ");
+		while (args[i - 1] != NULL && i < 256)
+		{
+			args[i++] = strtok(NULL, " ");
+		}
+		pid = fork();
+		if (pid == 0)
+		{
+			execvp(args[0], args);
+			perror("Error executing command");
+			exit(1);
+		}
+		else if (pid < 0)
+		{
+			perror("Error forking process");
+			exit(1);
+		}
 		else
 		{
-			if (fgets(command, MAX_COMMAND_LENGTH, file) == NULL)
-				break;
-			printf("%s", command);
+			int status;
+
+			waitpid(pid, &status, 0);
+			if (WIFSIGNALED(status))
+			{
+				printf("Command terminated by signal %d\n", WTERMSIG(status));
+			}
 		}
-		if (feof(file))
-			break;
-		hash = comment_pos = strchr(command, '#');
-		if (hash != NULL)
-			*comment_pos = '\0';
-		if (contains_separator(command))
-		{
-			handle_command_line_separators(command);
-			continue;
-		}
-		handle_variable_replacement(command);
-		num_args = parse_arguments(command, args);
-		check_commands(args, num_args);
 	}
-	if (filename != NULL)
-		fclose(file);
+	fclose(fp);
 }
 /**
  * shellTwo - second shell function
