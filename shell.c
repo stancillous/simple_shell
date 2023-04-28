@@ -38,6 +38,11 @@ void check_commands(char *args[], int num_args)
 		else
 			fprintf(stderr, "Incorrect usage of the command env");
 	}
+	else if (strcmp(args[0], "/bin/ls") == 0)
+	{
+		count = count_command(args, num_args);
+		execute_command_multiple_lines(count);
+	}
 	else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0)
 	{
 		if (num_args == 2)

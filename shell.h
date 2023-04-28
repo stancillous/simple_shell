@@ -16,7 +16,8 @@
 #define MAX_ARG_LENGTH 256
 #define MAX_NUM_ARGS 10
 #define MAX_PATH_LENGTH 100
-
+int count_command(char **args, int num_args);
+void execute_command_multiple_times(int count);
 int contains_separator(const char *command);
 char *_strtok(char *str, const char *delim);
 void shellTwo(void);
