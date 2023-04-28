@@ -75,7 +75,7 @@ void shell(char *filename)
 		if (file == NULL)
 		{
 			fprintf(stderr, "./hsh: 0: Can't open %s", filename);
-			return;
+			exit(127);
 		}
 		read_from_file = 1;
 	}
