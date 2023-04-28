@@ -41,7 +41,7 @@ void check_commands(char *args[], int num_args)
 	else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0)
 	{
 		if (num_args == 2)
-			printf("%s\n", getenv("PATH"));
+			printf("%s", getenv("PATH"));
 		else
 			fprintf(stderr, "Incorrect usage of the command echo $PATH\n");
 	}
