@@ -17,7 +17,7 @@ void print_environment(void)
 		{
 			*name = '\0';
 			name++;
-			printf("%s=%s", *envp, name);
+			printf("%s=%s\n", *envp, name);
 		}
 		envp++;
 	}
