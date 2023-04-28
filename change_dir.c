@@ -21,7 +21,6 @@ void change_cd(char *args[])
 	}
 	if (chdir(dir) != 0)
 	{/* If chdir fails, print error message to stderr*/
-		fprintf(stderr, "cd: %s: No such file or directory\n", dir);
 	}
 	else
 	{/* Update the PWD environment variable*/
