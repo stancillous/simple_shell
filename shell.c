@@ -89,6 +89,8 @@ void shell(char *filename)
 				break;
 			printf("%s", command);
 		}
+		if (feof(file))
+			break;
 		hash = comment_pos = strchr(command, '#');
 		if (hash != NULL)
 			*comment_pos = '\0';
@@ -120,6 +122,8 @@ void shellTwo(void)
 		input_stream = stdin;
 	while (fgets(command, MAX_COMMAND_LENGTH, input_stream))
 	{
+		if (feof(input_stream))
+			break;
 		command[strcspn(command, "\n")] = '\0';
 		comment_pos = strchr(command, '#');
 		if (comment_pos != NULL)
