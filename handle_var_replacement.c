@@ -9,8 +9,10 @@
  **/
 void handle_variable_replacement(char *command)
 {
-	int last_exit_status = 0;
+	int exit_status = 0;
 	char *pos;
+	char exit_status_str[12];
+	int len;
 
 	while ((pos = strstr(command, "$$")) != NULL)
 	{
@@ -22,9 +24,10 @@ void handle_variable_replacement(char *command)
 	/*Replace $? with actual exit status*/
 	while ((pos = strstr(command, "$?")) != NULL)
 	{
-		char exit_status[40];
-
-		sprintf(exit_status, "%d", last_exit_status);
-		memcpy(pos, exit_status, strlen(exit_status));
+		exit_status = 0;
+		snprintf(exit_status_str, 12, "%d", exit_status);
+		len = strlen(exit_status_str);
+		memmove(pos + len, pos + 2, strlen(pos) - 1);
+		memcpy(pos, exit_status_str, len);
 	}
 }
