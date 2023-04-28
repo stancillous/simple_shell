@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <fcntl.h>
 /**
  * handle_command_with_args - Forks a child process to execute a command
  * with arguments, waits for completion, and prints errors
@@ -10,12 +11,28 @@
 void handle_command_with_args(const char *command, char *args[])
 {
 	pid_t pid = 0; /* Fork a child process*/
+	int ret, fd;
 
 	if (pid == 0)
 	{/* Child process*/
-		execvp(command, args); /* Execute the command with arguments*/
-		perror("execvp"); /* Print error message if execvp fails*/
-		exit(EXIT_FAILURE); /* Exit child process with failure status*/
+		ret = execvp(command, args); /* Execute the command with arguments*/
+		if (ret == -1)
+		{
+			fd = open("/dev/null", O_WRONLY);
+			if (fd == -1)
+			{
+				perror("open /dev/null");
+				exit(2);
+			}
+			if (dup2(fd, STDERR_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(2);
+			}
+			close(fd);
+			perror("command not found");
+		}
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
