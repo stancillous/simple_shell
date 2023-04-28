@@ -31,7 +31,6 @@ void read_command(char *command)
  */
 void check_commands(char *args[], int num_args)
 {
-	int count;
 	if (strcmp(args[0], "env") == 0)
 	{
 		if (!args[1])
