@@ -29,37 +29,43 @@ char *trim(char *str)
 
 void handle_command_line_separators(char *command)
 {
-	const char *separator = ";";
-	char *token, *trimmed_command;
-	pid_t pid;
-	int num_args = 0;
-	char *args[64];
+    const char *separator = ";";
+    char *token, *trimmed_command;
+    pid_t pid;
+    int num_args = 0;
+    char *args[64];
+    int exit_status = 0;
 
-	token = strtok(command, separator);
-	while (token != NULL)
-	{
-		trimmed_command = trim(token);
-		pid = fork();
-		if (pid == 0)
-		{
-			args[num_args++] = strtok(trimmed_command, " ");
-			while ((args[num_args++] = strtok(NULL, " ")) != NULL)
-				;
-			execvp(args[0], args);
-			perror("execvp");
-			exit(1);
-		}
-		else if (pid > 0)
-		{
-			int status;
+    token = strtok(command, separator);
+    while (token != NULL)
+    {
+        trimmed_command = trim(token);
+        pid = fork();
+        if (pid == 0)
+        {
+            args[num_args++] = strtok(trimmed_command, " ");
+            while ((args[num_args++] = strtok(NULL, " ")) != NULL)
+                ;
+            execvp(args[0], args);
+            perror("execvp");
+            exit(1);
+        }
+        else if (pid > 0)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+            if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+            {
 
-			waitpid(pid, &status, 0);
-		}
-		else
-		{
-			perror("fork");
-			exit(1);
-		}
-		token = strtok(NULL, separator);
-	}
+                exit_status = 2;
+            }
+        }
+        else
+        {
+            perror("fork");
+            exit(1);
+        }
+        token = strtok(NULL, separator);
+    }
+    exit(exit_status);
 }
