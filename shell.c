@@ -22,6 +22,37 @@ void read_command(char *command)
 	}
 	command[strcspn(command, "\n")] = '\0';
 }
+
+int contains_dollar(char *args[])
+{
+  int i;
+    for (i = 1; args[i] != NULL; i++)
+    {
+        if (args[i][0] == '$' && args[i][1] != '$')
+            return 1;
+    }
+    return 0;
+}
+
+void handle_dollar(char *args[])
+{
+  int i;
+
+    for (i = 1; args[i] != NULL; i++)
+    {
+        if (args[i][0] == '$' && args[i][1] != '$')
+        {
+            char *var_name = args[i] + 1;
+            char *var_value = getenv(var_name);
+            if (var_value == NULL)
+                var_value = "";
+            strcpy(args[i], var_value);
+        }
+    }
+    handle_command_with_args(args[0], args);
+}
+
+
 void handle_comments(char *command) {
     int i, j;
 
@@ -67,6 +98,8 @@ void check_commands(char *args[], int num_args)
 		handle_unsetenv(args, num_args);
 	else if (strcmp(args[0], "exit") == 0)
 		handle_exit(&args[1], num_args);
+	else if (contains_dollar(args))
+		handle_dollar(args);
 	else
   {
 		handle_command_with_args(args[0], args);
