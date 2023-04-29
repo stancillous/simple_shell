@@ -22,28 +22,42 @@ void read_command(char *command)
 	}
 	command[strcspn(command, "\n")] = '\0';
 }
+void handle_comments(char *command) {
+    int i, j;
 
-/**
- * check_commands - check command
- * @args: array of commands
- * @num_args: number of args
- * Return: void
- */
+    for (i = 0; command[i] != '\0'; i++) {
+        if (command[i] == '#') {
+            if (i == 0 || (i > 0 && command[i-1] == ' ')) {
+                command[i] = '\0';
+                break;
+            }
+        }
+    }
+
+    for (j = i-1; j >= 0 && command[j] == ' '; j--) {
+        command[j] = '\0';
+    }
+}
+
 void check_commands(char *args[], int num_args)
 {
+
+
 	if (strcmp(args[0], "env") == 0)
 	{
 		if (!args[1])
 			print_environment();
 		else
-			fprintf(stderr, "Incorrect usage of the command env");
+			fprintf(stderr, "null");
 	}
+
+
 	else if (strcmp(args[0], "echo") == 0 && strcmp(args[1], "$PATH") == 0)
 	{
 		if (num_args == 2)
-			printf("%s", getenv("PATH"));
+			printf("%s\n", getenv("PATH"));
 		else
-			fprintf(stderr, "Incorrect usage of the command echo $PATH\n");
+			fprintf(stderr, "null");
 	}
 	else if (strcmp(args[0], "cd") == 0)
 		change_cd(args);
@@ -54,7 +68,10 @@ void check_commands(char *args[], int num_args)
 	else if (strcmp(args[0], "exit") == 0)
 		handle_exit(&args[1], num_args);
 	else
+  {
 		handle_command_with_args(args[0], args);
+  }
+
 }
 
 /**
@@ -119,7 +136,7 @@ void shell(char *filename)
 void shellTwo(void)
 {
 	char command[MAX_COMMAND_LENGTH];
-	char *args[MAX_NUM_ARGS + 1], *comment_pos = NULL;
+	char *args[MAX_NUM_ARGS + 1];
 	int num_args, i;
 	FILE *input_stream = stdin;
 
@@ -130,9 +147,10 @@ void shellTwo(void)
 		if (feof(input_stream))
 			break;
 		command[strcspn(command, "\n")] = '\0';
-		comment_pos = strchr(command, '#');
+		/*comment_pos = strchr(command, '#');
 		if (comment_pos != NULL)
-			*comment_pos = '\0';
+			*comment_pos = '\0';*/
+		handle_comments(command);
 		if (contains_separator(command))
 		{
 			handle_command_line_separators(command);
