@@ -23,52 +23,12 @@ void read_command(char *command)
 	command[strcspn(command, "\n")] = '\0';
 }
 
-int contains_dollar(char *args[])
-{
-  int i;
-    for (i = 1; args[i] != NULL; i++)
-    {
-        if (args[i][0] == '$' && args[i][1] != '$')
-            return 1;
-    }
-    return 0;
-}
-
-void handle_dollar(char *args[])
-{
-  int i;
-
-    for (i = 1; args[i] != NULL; i++)
-    {
-        if (args[i][0] == '$' && args[i][1] != '$')
-        {
-            char *var_name = args[i] + 1;
-            char *var_value = getenv(var_name);
-            if (var_value == NULL)
-                var_value = "";
-            strcpy(args[i], var_value);
-        }
-    }
-    handle_command_with_args(args[0], args);
-}
-
-
-void handle_comments(char *command) {
-    int i, j;
-
-    for (i = 0; command[i] != '\0'; i++) {
-        if (command[i] == '#') {
-            if (i == 0 || (i > 0 && command[i-1] == ' ')) {
-                command[i] = '\0';
-                break;
-            }
-        }
-    }
-
-    for (j = i-1; j >= 0 && command[j] == ' '; j--) {
-        command[j] = '\0';
-    }
-}
+/**
+ * check_commands  - checks command entered
+ * @args: args array
+ * @num_args: number of args
+ * Return: void
+ */
 
 void check_commands(char *args[], int num_args)
 {
@@ -101,9 +61,7 @@ void check_commands(char *args[], int num_args)
 	else if (contains_dollar(args))
 		handle_dollar(args);
 	else
-  {
 		handle_command_with_args(args[0], args);
-  }
 
 }
 
@@ -116,8 +74,7 @@ void shell(char *filename)
 {
 	FILE *fp;
 	char line[1024];
-	int i;
-
+	int i, status;
 	pid_t pid;
 	char *args[256];
 
@@ -133,9 +90,7 @@ void shell(char *filename)
 		i = 0;
 		args[i++] = strtok(line, " ");
 		while (args[i - 1] != NULL && i < 256)
-		{
 			args[i++] = strtok(NULL, " ");
-		}
 		pid = fork();
 		if (pid == 0)
 		{
@@ -150,13 +105,9 @@ void shell(char *filename)
 		}
 		else
 		{
-			int status;
-
 			waitpid(pid, &status, 0);
 			if (WIFSIGNALED(status))
-			{
 				printf("Command terminated by signal %d\n", WTERMSIG(status));
-			}
 		}
 	}
 	fclose(fp);
@@ -180,9 +131,6 @@ void shellTwo(void)
 		if (feof(input_stream))
 			break;
 		command[strcspn(command, "\n")] = '\0';
-		/*comment_pos = strchr(command, '#');
-		if (comment_pos != NULL)
-			*comment_pos = '\0';*/
 		handle_comments(command);
 		if (contains_separator(command))
 		{

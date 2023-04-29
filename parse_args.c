@@ -13,6 +13,7 @@ int parse_arguments(char *command, char **args)
 	char *token, *command_copy;
 
 	int len = strlen(command);
+
 	for (i = 0; isspace(command[i]); i++)
 		;
 	if (i == len)
