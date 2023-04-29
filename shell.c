@@ -146,6 +146,7 @@ void shellTwo(void)
 		}
 		if (command[i] == '\0')
 			exit(EXIT_SUCCESS);
+		handle_command_line_separators2(command);
 		num_args = parse_arguments(command, args);
 		check_commands(args, num_args);
 	}

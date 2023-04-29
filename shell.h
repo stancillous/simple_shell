@@ -16,6 +16,7 @@
 #define MAX_ARG_LENGTH 256
 #define MAX_NUM_ARGS 10
 #define MAX_PATH_LENGTH 100
+void handle_command_line_separators2(char *command);
 int contains_dollar(char *args[]);
 void handle_dollar(char *args[]);
 void handle_comments(char *command);
