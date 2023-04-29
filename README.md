@@ -1,5 +1,5 @@
-##Simple Shell
-Project done by Philip and Raymond. An implementation of the linux shell.
+## Simple Shell
+<h5>Project done by Philip and Raymond. An implementation of the linux shell.
 
 Compile the program: 
 ```
@@ -31,3 +31,4 @@ hsh main.c shell.c test_ls_2
 hsh main.c shell.c test_ls_2
 $
 ```
+</h5>
